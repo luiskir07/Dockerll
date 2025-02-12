@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronómetro</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .cronometro {
+            text-align: center;
+        }
+        .tiempo {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .botones button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="cronometro">
+        <div class="tiempo" id="tiempo">00:00:00</div>
+        <div class="botones">
+            <button onclick="iniciar()">Iniciar</button>
+            <button onclick="pausar()">Pausar</button>
+            <button onclick="reiniciar()">Reiniciar</button>
+        </div>
+    </div>
+
+    <script>
+        let horas = 0, minutos = 0, segundos = 0;
+        let intervalo;
+        let enMarcha = false;
+
+        function actualizarTiempo() {
+            segundos++;
+            if (segundos == 60) {
+                segundos = 0;
+                minutos++;
+                if (minutos == 60) {
+                    minutos = 0;
+                    horas++;
+                }
+            }
+            document.getElementById("tiempo").innerText = 
+                (horas < 10 ? "0" + horas : horas) + ":" + 
+                (minutos < 10 ? "0" + minutos : minutos) + ":" + 
+                (segundos < 10 ? "0" + segundos : segundos);
+        }
+
+        function iniciar() {
+            if (!enMarcha) {
+                intervalo = setInterval(actualizarTiempo, 1000);
+                enMarcha = true;
+            }
+        }
+
+        function pausar() {
+            clearInterval(intervalo);
+            enMarcha = false;
+        }
+
+        function reiniciar() {
+            clearInterval(intervalo);
+            enMarcha = false;
+            horas = 0;
+            minutos = 0;
+            segundos = 0;
+            document.getElementById("tiempo").innerText = "00:00:00";
+        }
+    </script>
+</body>
+</html>
